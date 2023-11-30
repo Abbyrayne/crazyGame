@@ -1,0 +1,215 @@
+import java.util.Random;
+import java.util.ArrayList;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.io.*;
+public class App {
+        int position = 0;
+    
+   
+    public static void main(String[] args) throws Exception {
+       App player1 = new App();
+       App player2 = new App();
+      
+   //System.out.println(player1.position);
+    System.out.println("Welcome to my game!");
+    int invalid = 1; // for while loop 1
+            int invalid2 = 1;// for while loop 2
+            int gameover = 1;
+           
+            int[][] field = new int[100][100];
+         char[][] newField = new char[100][100];
+          Scanner scan = new Scanner(System.in);
+    
+        for(int i = 0; i < 10; i++)
+            {
+                for(int j = 0; j < 10; j++)
+                {
+                    field[i][j]=(i*10)+j;
+                    //System.out.println(field[i][j] + " ");
+                }
+            }
+            player1.position = new Random().nextInt(field.length); //makes player 1 start random
+        player2.position = new Random().nextInt(field.length); // makes player 2 start random
+            int goal = new Random().nextInt(field.length); //where the goal is set 
+            while(gameover !=  0)
+            {
+                Random rand = new Random();
+                int endGame = rand.nextInt(12)+1;//this ends the game
+                if(endGame == 10)//randomly ends game
+                {
+                    System.out.println("GAMEOVER");
+                    break;
+                }
+            if(player1.position == player2.position) // makes sure players never spawn on the same index
+            {
+            player1.position = new Random().nextInt(field.length); 
+            player2.position = new Random().nextInt(field.length); 
+            }
+            Board(field,player1.position,player2.position,goal, newField);
+           
+            int player1score = rand.nextInt(500)+1;
+            int player2score = rand.nextInt(500)+1;
+            System.out.println();//this was to make player 1 a line under
+           System.out.println("player 1 score is " + player1score);
+            System.out.println("player 2 score is " + player2score);
+            while(invalid == 1)
+            { 
+                System.out.println("player 1 move: a for left, s is up, d is down, f is right");
+                char move1 = scan.next().charAt(0);//for first player
+            if(move1 == 'a' && (player1.position -1) == player2.position) // makes sure players cant touch eachother
+            {
+                System.out.println("YOU CANT DO THAT");
+                break;
+            } 
+            if(move1 == 's' && (player1.position -10) == player2.position) // makes sure players cant touch eachother
+            {
+                System.out.println("YOU CANT DO THAT");
+                break;
+            }
+            if(move1 == 'd' && (player1.position +10) == player2.position) // makes sure players cant touch eachother
+            {
+                System.out.println("YOU CANT DO THAT");
+                break;
+            } 
+            if(move1 == 'f' && (player1.position +1) == player2.position) // makes sure players cant touch eachother
+            {
+                System.out.println("YOU CANT DO THAT");
+                break;
+            }
+            if(move1 == 'a' && player1.position != 0)
+            {
+                player1.position = player1.position - 1;
+                System.out.println(player1.position);
+                break;
+            }
+            if(move1 == 'f' && player1.position!=99)
+            {
+                player1.position = player1.position + 1;
+                System.out.println(player1.position);
+                break;
+            }
+            if(move1 == 's' && player1.position>=10)
+            {
+                player1.position = player1.position - 10;
+                System.out.println(player1.position);
+                break;
+            }
+            if(move1 == 'd' && player1.position <90)
+            {
+                player1.position = player1.position + 10;
+                System.out.println(player1.position);
+                break;
+            }  
+           
+            else
+            {
+                System.out.println("invalid move");
+                continue;
+            }
+        }
+        while(invalid2 ==1)
+                {
+            System.out.println("player 2 move: a for left, s is up, d is down, f is right");
+            char move2 = scan.next().charAt(0);//for second player
+            if(move2 == 'a' && (player2.position -1) == player1.position) // makes sure players cant touch eachother
+            {
+                System.out.println("YOU CANT DO THAT");
+                break;
+            } 
+            if(move2 == 's' && (player2.position -10) == player1.position) // makes sure players cant touch eachother
+            {
+                System.out.println("YOU CANT DO THAT");
+                break;
+            }
+            if(move2 == 'd' && (player2.position +10) == player1.position) // makes sure players cant touch eachother
+            {
+                System.out.println("YOU CANT DO THAT");
+                break;
+            } 
+            if(move2 == 'f' && (player2.position +1) == player1.position) // makes sure players cant touch eachother
+            {
+                System.out.println("YOU CANT DO THAT");
+                break;
+            }
+            
+            if(move2 == 'a' && player2.position != 0)
+            {
+                player2.position = player2.position - 1;
+                System.out.println(player2.position);
+                break;
+            }
+            if(move2 == 'f' && player2.position!=99)
+            {
+                player2.position = player2.position + 1;
+                System.out.println(player2.position);
+                break;
+            }
+            if(move2 == 's' && player2.position>=10)
+            {
+                player2.position = player2.position - 10;
+                System.out.println(player2.position);
+                break;
+            }
+            if(move2 == 'd' && player2.position <90)
+            {
+                player2.position = player2.position + 10;
+                System.out.println(player2.position);
+                break;
+            }
+            else
+            {
+                System.out.println("invalid move");
+                continue;
+            }
+        }
+        int changeGoal = rand.nextInt(4)+1;
+           //System.out.println(changeGoal);
+        if(changeGoal == 1 && goal!=0)
+        {
+            goal = goal - 1;
+        }
+        if(changeGoal == 2 && goal!=99)
+        {
+            goal = goal +1;
+        }
+        if(changeGoal == 3 && goal >=10)
+        {
+            goal = goal -10;
+        }
+        if(changeGoal == 4 && goal<90)
+        {
+            goal = goal + 10;
+        }
+         
+        }
+    }
+    public static char[][] Board(int field[][], int p1, int p2, int goal,char[][] newField)
+    {
+        for(int k = 0; k < 10; k++)
+        {
+            System.out.println();
+            for(int l = 0; l < 10; l++)
+            {  
+                if(field[k][l] != p1)
+                {
+                    newField[k][l] = '_';   
+                }
+                if(field[k][l] == goal)
+                {
+                    newField[k][l] = 'X';
+                }
+                if(field[k][l] == p2)
+                {
+                    newField[k][l] = '2';
+                }
+                if(field[k][l] == p1)
+                {
+                    newField[k][l] = '1';
+                }
+                System.out.print(newField[k][l] + " "); 
+            }
+        }
+        return newField;
+    }
+}
